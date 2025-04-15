@@ -10,11 +10,14 @@ import {
   BreadcrumbList,
 } from "@/components/ui/breadcrumb";
 
+import { MobileSidebar } from "./DesktopSidebar";
+
 export default function BreadcrumbHeader() {
   const pathName = usePathname();
   const paths = pathName === "/" ? [""] : pathName.split("/");
   return (
     <div className="flex-start flex items-center">
+      <MobileSidebar />
       <Breadcrumb>
         <BreadcrumbList>
           {paths.map((path, index) => (

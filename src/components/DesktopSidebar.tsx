@@ -2,16 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 import {
   CoinsIcon,
   HomeIcon,
   Layers2Icon,
+  MenuIcon,
   ShieldCheckIcon,
 } from "lucide-react";
 
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+
 import Logo from "./Logo";
-import { buttonVariants } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 
 const routes = [
   { label: "Home", href: "", icon: HomeIcon },
@@ -51,6 +55,54 @@ export default function DesktopSidebar() {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+export function MobileSidebar() {
+  const [isOpen, setOpen] = useState(false);
+  const pathName = usePathname();
+  const activeRoute =
+    routes.find(
+      (route) => route.href.length > 0 && pathName.includes(route.href)
+    ) || routes[0];
+  return (
+    <div className="bg-background block border-separate md:hidden">
+      <nav className="container flex items-center justify-between px-8">
+        <Sheet open={isOpen} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <Button variant={"ghost"} size={"icon"}>
+              <MenuIcon />
+            </Button>
+          </SheetTrigger>
+          <SheetContent
+            className="w-[400px] space-y-4 sm:w-[540px]"
+            side="left"
+          >
+            <Logo />
+            <div className="flex flex-col gap-1">
+              {routes.map((route) => {
+                return (
+                  <Link
+                    href={route.href}
+                    key={route.label}
+                    className={buttonVariants({
+                      variant:
+                        activeRoute.href === route.href
+                          ? "sidebarItemActive"
+                          : "sidebarItem",
+                    })}
+                    onClick={() => setOpen((prev) => !prev)}
+                  >
+                    <route.icon size={20} />
+                    {route.label}
+                  </Link>
+                );
+              })}
+            </div>
+          </SheetContent>
+        </Sheet>
+      </nav>
     </div>
   );
 }
