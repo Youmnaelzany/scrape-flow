@@ -34,8 +34,6 @@ export default function RootLayout({
         elements: {
           formButtonPrimary:
             "bg-primary hover:bg-primary/90 text-sm !shadow-none",
-          footerActionLink: "hover:underline",
-          footerActionText: "text-muted-foreground",
         },
       }}
     >
